@@ -1,60 +1,99 @@
 <template>
   <v-app>
-    <v-app-bar
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      fixed
       app
-      color="primary"
-      dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+    <v-app-bar app color="primary" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
     </v-main>
+
+    <v-footer app>
+      <span>&copy; {{ new Date().getFullYear() }} - Finanzas Personales</span>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
   name: 'App',
-
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      clipped: false,
+      drawer: false,
+      fixed: false,
+      items: [
+        { 
+          icon: 'mdi-chart-line', 
+          title: 'Resumen', 
+          to: '/resumen' 
+        },
+        { 
+          icon: 'mdi-currency-usd', 
+          title: 'Ingresos', 
+          to: '/ingresos' 
+        },
+        { 
+          icon: 'mdi-tag', 
+          title: 'Gastos', 
+          to: '/gastos' 
+        },
+        { 
+          icon: 'mdi-bank', 
+          title: 'Ahorros', 
+          to: '/ahorros' 
+        },
+        { 
+          icon: 'mdi-bitcoin', 
+          title: 'Cripto', 
+          to: '/cripto' 
+        },
+      ],
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      title: 'Finanzas Personales',
+    }
   },
-
-  data: () => ({
-    //
-  }),
-};
+}
 </script>
+
+<style scoped>
+.v-main {
+  background-color: #f5f5f5;
+}
+
+.v-footer {
+  justify-content: center;
+  text-align: center;
+}
+</style>
