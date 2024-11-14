@@ -29,6 +29,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-img src="@/assets/img/logo.jpeg"  class="logo"></v-img>
     </v-app-bar>
 
     <v-main>
@@ -84,6 +85,7 @@ export default {
       title: 'Finanzas Personales',
     }
   },
+  
 }
 </script>
 
@@ -95,5 +97,10 @@ export default {
 .v-footer {
   justify-content: center;
   text-align: center;
+}
+.logo{
+  object-fit: cover;
+  max-width: 100px;
+  max-height: 5vh;
 }
 </style>
