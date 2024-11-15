@@ -16,13 +16,13 @@
         <v-card v-for="goal in savingsGoals" :key="goal.id" class="mb-4">
           <v-card-title>{{ goal.title }}</v-card-title>
           <v-card-content>
-            <p>Meta: ${{ goal.target.toFixed(2) }}</p>
-            <p>Actual: <span class="text-success">${{ goal.currentAmount.toFixed(2) }}</span></p>
+            <p class="mx-8 font-weight-bold">Meta: ${{ goal.target.toFixed(2) }}</p>
+            <p class="mx-8 font-weight-bold">Actual: <span class="text-success">${{ goal.currentAmount.toFixed(2) }}</span></p>
             <v-text-field :label="`Agregar a '${goal.title}'`" type="number" :value="goal.newSavingsAmount"
-              @input="goal.newSavingsAmount = parseFloat($event)" class="mr-4"></v-text-field>
-            <v-btn @click="addToSavings(goal)">Agregar</v-btn>
+              @input="goal.newSavingsAmount = parseFloat($event)" class="mx-8 font-weight-bold"></v-text-field>
+            <v-btn @click="addToSavings(goal)" class="my-5 ml-8 custom-hover">Agregar</v-btn>
             <v-btn @click="completeGoal(goal)" v-if="!goal.completed" color="success" class="ml-4">Completar</v-btn>
-            <v-btn @click="deleteGoal(goal)" color="error" class="ml-4">Eliminar</v-btn>
+            <v-btn @click="deleteGoal(goal)" color="red" class="ml-4">Eliminar</v-btn>
           </v-card-content>
         </v-card>
       </v-col>
