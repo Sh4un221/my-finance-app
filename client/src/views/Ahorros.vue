@@ -1,45 +1,52 @@
 <template>
-  <v-container>
-    <h2>Ahorros</h2>
+  <v-container fluid>
     <v-row>
       <v-col cols="12" md="6">
-        <v-card>
+        <v-card class="d-flex flex-column">
           <v-card-title>Nueva Meta de Ahorro</v-card-title>
-          <v-card-text>
-            <v-text-field label="Título" v-model="newSavingsGoal.title"></v-text-field>
-            <v-text-field label="Meta" type="number" :value="newSavingsGoal.target" @input="newSavingsGoal.target = parseFloat($event)"></v-text-field>
-            <div class="d-flex align-center">
-              <v-btn @click="addSavingsGoal">Agregar Meta</v-btn>
-            </div>
-          </v-card-text>
+          <v-card-content>
+            <v-text-field label="Título" v-model="newSavingsGoal.title" class="px-8"></v-text-field>
+            <v-text-field label="Meta" type="number" :value="newSavingsGoal.target"
+              @input="newSavingsGoal.target = parseFloat($event)" class="px-8"></v-text-field>
+            <v-btn @click="addSavingsGoal" class="mb-4 mx-8 custom-hover">Agregar Meta</v-btn>
+          </v-card-content>
         </v-card>
       </v-col>
       <v-col cols="12" md="6">
-        <div v-for="goal in savingsGoals" :key="goal.id" class="mb-4">
-          <v-card>
-            <v-card-title>{{ goal.title }}</v-card-title>
-            <v-card-text>
-              <p>Meta: ${{ goal.target.toFixed(2) }}</p>
-              <p>Actual: <span class="text-success">${{ goal.currentAmount.toFixed(2) }}</span></p>
-              <div class="d-flex align-center">
-                <v-text-field :label="`Agregar a '${goal.title}'`" type="number" :value="goal.newSavingsAmount" @input="goal.newSavingsAmount = parseFloat($event)" class="mr-4"></v-text-field>
-                <v-btn @click="addToSavings(goal)">Agregar</v-btn>
-                <v-btn @click="completeGoal(goal)" v-if="!goal.completed" color="success" class="ml-4">Completar</v-btn>
-                <v-btn @click="deleteGoal(goal)" color="error" class="ml-4">Eliminar</v-btn>
-              </div>
-            </v-card-text>
-          </v-card>
-        </div>
+        <v-card v-for="goal in savingsGoals" :key="goal.id" class="mb-4">
+          <v-card-title>{{ goal.title }}</v-card-title>
+          <v-card-content>
+            <p>Meta: ${{ goal.target.toFixed(2) }}</p>
+            <p>Actual: <span class="text-success">${{ goal.currentAmount.toFixed(2) }}</span></p>
+            <v-text-field :label="`Agregar a '${goal.title}'`" type="number" :value="goal.newSavingsAmount"
+              @input="goal.newSavingsAmount = parseFloat($event)" class="mr-4"></v-text-field>
+            <v-btn @click="addToSavings(goal)">Agregar</v-btn>
+            <v-btn @click="completeGoal(goal)" v-if="!goal.completed" color="success" class="ml-4">Completar</v-btn>
+            <v-btn @click="deleteGoal(goal)" color="error" class="ml-4">Eliminar</v-btn>
+          </v-card-content>
+        </v-card>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="d-flex flex-column">
           <v-card-title>Resumen de Ahorros</v-card-title>
-          <v-card-text>
-            <p>Disponible para Ahorros: <span class="text-success">${{ availableForSavings.toFixed(2) }}</span></p>
-            <p>Total Ahorros: ${{ savingsGoals.reduce((sum, goal) => sum + goal.currentAmount, 0).toFixed(2) }}</p>
-          </v-card-text>
+          <v-card-content>
+            <p class="mx-8 font-weight-bold">
+              Disponible para Ahorros:
+              <span
+                :class="{ 'error--text font-weight-bold': availableForSavings < 0, 'success--text font-weight-bold': availableForSavings >= 0 }">
+                ${{ availableForSavings.toFixed(2) }}
+              </span>
+            </p>
+            <p class="mx-8 font-weight-bold">
+              Total Ahorros:
+              <span
+                :class="savingsGoals.reduce((sum, goal) => sum + goal.currentAmount, 0) < 0 ? 'error--text' : 'success--text'">
+                ${{ savingsGoals.reduce((sum, goal) => sum + goal.currentAmount, 0).toFixed(2) }}
+              </span>
+            </p>
+          </v-card-content>
         </v-card>
       </v-col>
     </v-row>
@@ -61,8 +68,7 @@ export default {
         currentAmount: 0,
         completed: false,
         newSavingsAmount: 0
-      },
-      newSavingsAmount: 0
+      }
     }
   },
   created() {
@@ -145,3 +151,18 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.custom-hover {
+  background-color: #501988; /* Color de fondo inicial */
+  color: black; /* Color de texto inicial */
+  transition: all 0.2s ease; /* Transición suave */
+}
+
+.custom-hover:hover {
+  background-color: #3859eb; 
+  transform: scale(1.05); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  color: white;
+}
+</style>
